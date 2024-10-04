@@ -3305,6 +3305,102 @@ describe('TypeScript Operations Plugin', () => {
         }>;
       `);
     });
+
+    it('Should only emit used input enums when onlyOperationTypes=true and enums', async () => {
+      const document = parse(/* GraphQL */ `
+        query InfoQuery($input: InfoInput) {
+          info(input: $input) {
+            type
+          }
+        }
+      `);
+      const testSchema = buildSchema(/* GraphQL */ `
+        input InfoInput {
+          inner: Inner
+        }
+
+        input Inner {
+          type: InputEnum!
+          value: String
+        }
+
+        enum InputEnum {
+          NAME
+          ADDRESS
+        }
+
+        input UnusedType {
+          type: UnusedEnum!
+        }
+
+        enum UnusedEnum {
+          UNUSED
+        }
+
+        enum OutputEnum {
+          UNUSED
+        }
+
+        type InfoOutput {
+          type: OutputEnum!
+        }
+
+        type Query {
+          info(input: InfoInput): InfoOutput
+        }
+      `);
+
+      const { content } = await tsPlugin(testSchema, [{ location: '', document }], { onlyOperationTypes: true }, {});
+      expect(content).toMatchSnapshot();
+    });
+
+    it('Should only emit used output enums when onlyOperationTypes=true', async () => {
+      const document = parse(/* GraphQL */ `
+        query InfoQuery($input: InfoInput) {
+          info(input: $input) {
+            type
+          }
+        }
+      `);
+      const testSchema = buildSchema(/* GraphQL */ `
+        input InfoInput {
+          inner: Inner
+        }
+
+        input Inner {
+          type: InputEnum!
+          value: String
+        }
+
+        enum InputEnum {
+          NAME
+          ADDRESS
+        }
+
+        input UnusedType {
+          type: UnusedEnum!
+        }
+
+        enum UnusedEnum {
+          UNUSED
+        }
+
+        enum OutputEnum {
+          UNUSED
+        }
+
+        type InfoOutput {
+          type: OutputEnum!
+        }
+
+        type Query {
+          info(input: InfoInput): InfoOutput
+        }
+      `);
+
+      const { content } = await tsPlugin(testSchema, [{ location: '', document }], { onlyOperationTypes: true }, {});
+      expect(content).toMatchSnapshot();
+    });
   });
 
   describe('Union & Interfaces', () => {

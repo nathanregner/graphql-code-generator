@@ -199,6 +199,12 @@ const config: CodegenConfig = {
       documents: './dev-test/star-wars/**/*.graphql',
       plugins: ['typescript', 'typescript-operations'],
     },
+    './dev-test/star-wars/preset/client/': {
+      schema: './dev-test/star-wars/schema.json',
+      documents: './dev-test/star-wars/**/*.graphql',
+      preset: 'client',
+      config: { onlyOperationTypes: true },
+    },
     './dev-test/gql-tag-operations/gql/': {
       schema: './dev-test/gql-tag-operations/schema.graphql',
       documents: './dev-test/gql-tag-operations/src/**/*.ts',

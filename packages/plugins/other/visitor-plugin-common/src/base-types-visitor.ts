@@ -60,6 +60,7 @@ export interface ParsedTypesConfig extends ParsedConfig {
   wrapEntireDefinitions: boolean;
   ignoreEnumValuesFromSchema: boolean;
   directiveArgumentAndInputFieldMappings: ParsedDirectiveArgumentAndInputFieldMappings;
+  onlyInputTypes?: Set<string>;
 }
 
 export interface RawTypesConfig extends RawConfig {
@@ -675,7 +676,15 @@ export class BaseTypesVisitor<
   }
 
   InputObjectTypeDefinition(node: InputObjectTypeDefinitionNode): string {
-    if (this.config.onlyEnums) return '';
+    if (
+      (this.config.onlyOperationTypes &&
+        !this.config.onlyInputTypes?.has(
+          // types are wrong; string at runtime?
+          node.name as unknown as string
+        )) ||
+      this.config.onlyEnums
+    )
+      return '';
 
     // Why the heck is node.name a string and not { value: string } at runtime ?!
     if (isOneOfInputObjectType(this._schema.getType(node.name as unknown as string))) {

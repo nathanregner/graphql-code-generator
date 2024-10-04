@@ -157,6 +157,58 @@ export type SnakeQueryQuery = { __typename: 'Query', snake: { __typename: 'Snake
 "
 `;
 
+exports[`TypeScript Operations Plugin Operation Definition Should only emit used input enums when onlyOperationTypes=true and enums 1`] = `
+"/** All built-in and custom scalars, mapped to their actual values */
+export type Scalars = {
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+};
+
+export type InfoInput = {
+  inner?: InputMaybe<Inner>;
+};
+
+export type Inner = {
+  type: InputEnum;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+export enum InputEnum {
+  Name = 'NAME',
+  Address = 'ADDRESS'
+}
+"
+`;
+
+exports[`TypeScript Operations Plugin Operation Definition Should only emit used output enums when onlyOperationTypes=true 1`] = `
+"/** All built-in and custom scalars, mapped to their actual values */
+export type Scalars = {
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+};
+
+export type InfoInput = {
+  inner?: InputMaybe<Inner>;
+};
+
+export type Inner = {
+  type: InputEnum;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+export enum InputEnum {
+  Name = 'NAME',
+  Address = 'ADDRESS'
+}
+"
+`;
+
 exports[`TypeScript Operations Plugin Selection Set Should generate the correct __typename when using both inline fragment and spread over type 1`] = `
 "export type UserQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
