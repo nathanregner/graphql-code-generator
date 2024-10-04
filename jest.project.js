@@ -23,7 +23,7 @@ module.exports = ({ dirname, projectMode = true }) => {
     setupFiles: [`${ROOT_DIR}/dev-test/setup.js`],
     collectCoverage: false,
     testTimeout: 20_000,
-    resolver: './node_modules/bob-the-bundler/jest-resolver.cjs',
+    resolver: `${ROOT_DIR}/node_modules/bob-the-bundler/jest-resolver.cjs`,
     snapshotFormat: {
       escapeString: false,
     },
